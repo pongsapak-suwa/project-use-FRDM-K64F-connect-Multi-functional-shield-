@@ -1,42 +1,4 @@
-#include "MK64F12.h"
-void delayMs(int n);
-int time = 0;
-int q;
-int zero[8] = {1,1,0,0,0,0,0,0};
-int numsegment[5][8] = {{0,1,0,0,0,0,0,0},{0,1,1,1,1,0,0,1},{0,0,1,0,0,1,0,0},{0,0,1,1,0,0,0,0},{0,0,0,1,1,0,0,1}}; // dp,g,f,e,d,c,b,a and 0,1,2,3,4 (value)
-int seenum[4][8] = {{0,0,0,0,1,0,0,0},{0,0,0,0,0,1,0,0},{0,0,0,0,0,0,1,0},{0,0,0,0,0,0,0,1}}; //position ----,000-,00-0,0-00,-000
-void segment(int time);
-int main (void){
-	SIM->SCGC5 |= (1 << SIM_SCGC5_PORTB_SHIFT) |  (1<< SIM_SCGC5_PORTD_SHIFT )| (1<< SIM_SCGC5_PORTA_SHIFT ) | (1<< SIM_SCGC5_PORTC_SHIFT ); 
-	//set GPIO
-	//switch
-	PORTB -> PCR[3] = 0x100 ;  //S1
-	PORTB -> PCR[10] = 0x100 ; //S2
-	PORTB -> PCR[11] = 0x100 ; //S3
-	//led
-	PORTD -> PCR[0] = 0x100 ; //D4
-	PORTD -> PCR[1] = 0x100 ; //D1
-	PORTD -> PCR[2] = 0x100 ; //D3
-	PORTD -> PCR[3] = 0x100 ; //D2
-	//buzzer
-	PORTA -> PCR[1] = 0x100 ; 
-	// 7 segment
-	PORTB -> PCR[23] = 0x100 ; //LCHCLK
-	PORTC -> PCR[3] = 0x100 ; //SFTCLK
-	PORTC -> PCR[12] = 0x100 ; //SDI
-	//output 7 segment
-	PTC -> PDDR |= 0x01008;
-	PTB -> PDDR |= 0x0800000;
-	//input sw
-	PTB -> PDDR &= ~0xC08;
-	//output led
-	PTD -> PDDR |= 0x0F;
-	
-	//sys timmer
-	SysTick->LOAD = 204800 - 1; //1 ms
-	SysTick->CTRL = 5; // enable counter, - no interrupt,- use system clock  bit0-2
-	//FTM Timmer
-	SIM->SCGC6 |= 0x01000000;  //enable clock gate to FTM0 bit24 set FTM1-25 FTM2-26 (selection)
+
 #include "MK64F12.h"
 void delayMs(int n);
 int time = 0;
